@@ -33,6 +33,9 @@ const QUIZ_DATA = [
 ];
 
 function App() {
+  // Add this line here
+  const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+  // ... rest of your states
   // Step 0 = Intro/Email, Step 1-7 = Questions, Step 8 = Submitting
   const [currentStep, setCurrentStep] = useState(0);
 
@@ -101,7 +104,7 @@ function App() {
     });
 
     try {
-      const response = await fetch('http://localhost:8080/api/diagnostics/analyze', {
+      const response = await fetch(`${API_BASE_URL}/api/diagnostics/analyze`,{
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
