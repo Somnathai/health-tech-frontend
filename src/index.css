@@ -3,3 +3,37 @@
 body {
   background-color: #f3f4f6;
 }
+@keyframes pulse-green {
+  0% { box-shadow: 0 0 30px rgba(16, 185, 129, 0.5), 0 0 60px rgba(16, 185, 129, 0.2); }
+  50% { box-shadow: 0 0 40px rgba(16, 185, 129, 0.8), 0 0 80px rgba(16, 185, 129, 0.4), 0 0 120px rgba(16, 185, 129, 0.2); }
+  100% { box-shadow: 0 0 30px rgba(16, 185, 129, 0.5), 0 0 60px rgba(16, 185, 129, 0.2); }
+}
+
+@keyframes draw-check {
+  0% { stroke-dashoffset: 60; }
+  100% { stroke-dashoffset: 0; }
+}
+
+@keyframes slide-up-fade {
+  0% { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes confetti-fall {
+  0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+
+.success-card {
+  animation: slide-up-fade 0.6s ease forwards;
+}
+
+.confetti-piece {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  animation: confetti-fall linear forwards;
+  z-index: 9999;
+  pointer-events: none;
+}
