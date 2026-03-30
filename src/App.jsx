@@ -85,9 +85,10 @@ function App() {
   const [email, setEmail] = useState('');
   const [age, setAge] = useState('');
   const [answers, setAnswers] = useState(Array(QUIZ_DATA.length).fill([]));
-  const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(null);
   const [submittedEmail, setSubmittedEmail] = useState('');
+  const [name, setName] = useState('');
+  const [mobile, setMobile] = useState('');
 
   const toggleOption = (questionIndex, optionStr) => {
     const currentSelections = [...answers[questionIndex]];
@@ -113,7 +114,7 @@ function App() {
   };
 
   const handleNext = () => {
-    if (currentStep === 0 && (!email || !age)) return;
+    if (currentStep === 0 && (!email || !age || !name || !mobile)) return;
     setCurrentStep(prev => prev + 1);
   };
 
@@ -125,6 +126,8 @@ function App() {
     setMessage(null);
     setEmail('');
     setAge('');
+    setName('');        // ← ADD
+    setMobile('');      // ← ADD
     setSubmittedEmail('');
   };
 
@@ -153,6 +156,8 @@ function App() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
+        customerName: name,          // ← ADD
+        customerMobile: mobile,      // ← ADD
         customerEmail: email,
         age: parseInt(age),
         reportedSymptoms: compiledSymptoms
@@ -195,7 +200,31 @@ function App() {
                     <h2 style={{ color: '#ffffff', fontSize: '24px', fontWeight: '800', margin: '0 0 8px' }}>Clinical Intake Form</h2>
                     <p style={{ color: '#6b7280', fontSize: '14px', margin: 0 }}>Let's get a comprehensive picture of your health.</p>
                   </div>
+                  {/* Name */}
+                  <div style={{ marginBottom: '20px' }}>
+                    <label style={{ display: 'block', color: '#9ca3af', fontSize: '13px', fontWeight: '600', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '1px' }}>Full Name</label>
+                    <input
+                        type="text" required value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        placeholder="e.g. John Doe"
+                        style={{ width: '100%', padding: '14px 16px', background: '#0f1117', border: '1px solid #2a2d3e', borderRadius: '12px', color: '#ffffff', fontSize: '15px', outline: 'none', boxSizing: 'border-box' }}
+                        onFocus={e => e.target.style.borderColor = '#6366f1'}
+                        onBlur={e => e.target.style.borderColor = '#2a2d3e'}
+                    />
+                  </div>
 
+                  {/* Mobile */}
+                  <div style={{ marginBottom: '20px' }}>
+                    <label style={{ display: 'block', color: '#9ca3af', fontSize: '13px', fontWeight: '600', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '1px' }}>Mobile Number</label>
+                    <input
+                        type="tel" required value={mobile}
+                        onChange={(e) => setMobile(e.target.value)}
+                        placeholder="e.g. +91 9876543210"
+                        style={{ width: '100%', padding: '14px 16px', background: '#0f1117', border: '1px solid #2a2d3e', borderRadius: '12px', color: '#ffffff', fontSize: '15px', outline: 'none', boxSizing: 'border-box' }}
+                        onFocus={e => e.target.style.borderColor = '#6366f1'}
+                        onBlur={e => e.target.style.borderColor = '#2a2d3e'}
+                    />
+                  </div>
                   <div style={{ marginBottom: '20px' }}>
                     <label style={{ display: 'block', color: '#9ca3af', fontSize: '13px', fontWeight: '600', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '1px' }}>Email Address</label>
                     <input
@@ -223,8 +252,8 @@ function App() {
 
                   <button
                       onClick={handleNext}
-                      disabled={!email || !age}
-                      style={{ width: '100%', padding: '16px', background: (!email || !age) ? '#1f2937' : 'linear-gradient(135deg, #6366f1, #8b5cf6)', color: (!email || !age) ? '#4b5563' : '#ffffff', border: 'none', borderRadius: '12px', fontSize: '16px', fontWeight: '700', cursor: (!email || !age) ? 'not-allowed' : 'pointer' }}
+                      disabled={!email || !age || !name || !mobile}
+                      style={{ width: '100%', padding: '16px', background: (!email || !age || !name || !mobile) ? '#1f2937' : 'linear-gradient(135deg, #6366f1, #8b5cf6)', color: (!email || !age || !name || !mobile) ? '#4b5563' : '#ffffff', border: 'none', borderRadius: '12px', fontSize: '16px', fontWeight: '700', cursor: (!email || !age || !name || !mobile) ? 'not-allowed' : 'pointer' }}
                   >
                     Start Health Assessment →
                   </button>
